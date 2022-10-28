@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
-  get '/signin', to: 'sessions#new'
-  post '/signin', to: 'sessions#create'
-  delete '/signout', to: 'sessions#destroy'
-
   resources :rooms do
     resources :messages
   end
 
-  resources :users
-  root 'rooms#index'
+  root 'pages#home'
+  devise_for :users
+   devise_scope :user do
+    get 'users', to: 'devise/sessions#new'
+    get 'user/:id', to: 'users#show', as: 'user'
+  end
 end

@@ -5,6 +5,7 @@ class RoomsController < ApplicationController
     @rooms = Room.public_rooms
     @room = Room.new
     @users = User.all_except(@current_user)
+    render 'index'
   end
 
   def create
@@ -14,12 +15,12 @@ class RoomsController < ApplicationController
   def show
   @current_user = current_user
   @single_room = Room.find(params[:id])
-  @rooms = Room.public_rooms
-  @users = User.all_except(@current_user)
   @room = Room.new
+  @rooms = Room.public_rooms
   @message = Message.new
-  @messages = @single_room.messages
-
+  @messages = @single_room.messages.order(created_at: :asc)
+  
+  @users = User.all_except(@current_user)
   render "index"
   end
 
